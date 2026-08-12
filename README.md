@@ -94,3 +94,7 @@ Two sections encode the author's setup — adjust them for yours:
 - A note about a shell where `cat` is aliased to a colorizing wrapper, which
   silently injects ANSI escapes into files built with `cat > f <<EOF`. Harmless
   to keep; the scripts pre-flight for it either way.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
