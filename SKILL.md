@@ -286,8 +286,9 @@ Output is ANSI-colored; strip it with `sed 's/\x1b\[[0-9;]*m//g'`.
 
 ## Performance
 
-The console is 60 fps with no JIT. Two rules dominate, both learned the hard
-way in this repo (`007-skifree/skifree-perf-review.md`):
+The console is 60 fps with no JIT. Two rules dominate, both drawn from a
+performance post-mortem on a scrolling-world cart that degraded over a play
+session:
 
 **Native calls (`spr`, `pix`, `mget`, `Math.random`) cross an FFI boundary
 and are expensive.** Hundreds per frame is the budget, not thousands. A
@@ -367,12 +368,16 @@ function TIC() {
 
 ## Why the ES5 rule looks wrong but isn't
 
-`011-fishing/CLAUDE.md:19` states "ES5 only — do not use ES6+, the target
-runtime does not support it." A probe on the desktop build appears to
-disprove this: QuickJS runs ES2020 fine.
+A project may state "ES5 only — do not use ES6+, the target runtime does not
+support it." A probe on the desktop build appears to disprove this: QuickJS
+runs ES2020 fine.
 
-**Do not "correct" it.** The target runtime is the R36S handheld, not the
-desktop. The rule is a portability constraint about where these games ship,
-and the desktop build is simply a more permissive environment than the
-deployment one. Treat any local evidence that "ES6 works" as evidence about
-the dev machine only.
+**Do not "correct" such a rule.** The target runtime is the deployment
+device — here an R36S handheld — not the desktop. The rule is a portability
+constraint about where the game ships, and the desktop build is simply a more
+permissive environment than the deployment one. Treat local evidence that
+"ES6 works" as evidence about the dev machine only.
+
+The general lesson outlives this example: when a project constraint looks
+contradicted by a local experiment, check whether you tested the same
+environment the constraint is about before declaring the rule obsolete.
